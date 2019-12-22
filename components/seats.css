@@ -1,0 +1,57 @@
+h1 {
+  text-align: center;
+}
+
+.container {
+  margin: 0 auto;
+  width: 350px;
+}
+
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  border: 2px solid orange;
+}
+
+.grid .card {
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  padding: 4px 0px;
+  border: 2px solid orange;
+  margin: 2px;
+  font-size: 12px;
+  box-sizing: border-box;
+}
+
+.grid .card:hover {
+  opacity: .7;
+  cursor: pointer;
+}
+
+.reserved {
+  background: rgba(225, 165, 0, 0.8);
+  color: #fff;
+  display: inline-block;
+  pointer-events: none;
+}
+
+.available {
+  color: #333;
+}
+
+.unavailable {
+  background-color: lightgray !important;
+  pointer-events: none;
+}
+
+.emptySpace {
+  border: none !important;
+  margin: 2px !important;
+  pointer-events: none;
+}
+
+.active {
+  background-color: rgba(122, 218, 93, 0.719);
+}
