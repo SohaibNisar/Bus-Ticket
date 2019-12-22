@@ -26,60 +26,58 @@ class Seats extends Component {
     }
 
     getData = () => {
-        let ref = firebase.database().ref('Bus/Bus1/Book');
-        
+        let database = firebase.database().ref('Bus/Bus1');
+        database.on('value',
+            (data) => {
+                let userData = data.val();
+                if (userData) {
+                    let seatCode = userData.Book[this.state.date].seatCode;
+                    console.log(seatCode)
+                    seatCode = seatCode.split('');
 
-        // let database = firebase.database().ref('Bus/Bus1');
-        // database.on('value',
-        //     (data) => {
-        //         let userData = data.val();
-        //         if (userData) {
-        //             let seatCode = userData.Book[this.state.date].seatCode;
-        //             seatCode = seatCode.split('');
+                    let fliterSeats = (seatStatus) => {
+                        return seatCode.map((x, i) => x == seatStatus ? i : null).filter(x => x != null);
+                    }
 
-        //             let fliterSeats = (seatStatus) => {
-        //                 return seatCode.map((x, i) => x == seatStatus ? i : null).filter(x => x != null);
-        //             }
+                    let emptySpace = fliterSeats('_');
 
-        //             let emptySpace = fliterSeats('_');
+                    let busSeats = userData.seats;
+                    let seat = [];
+                    for (let i = 0; i < busSeats; i++) {
+                        seat.push(i + 1);
+                    }
 
-        //             let busSeats = userData.seats;
-        //             let seat = [];
-        //             for (let i = 0; i < busSeats; i++) {
-        //                 seat.push(i + 1);
-        //             }
+                    for (let i = 0; i < emptySpace.length; i++) {
+                        let x = emptySpace[i];
+                        seat.splice(x, 0, '')
+                    }
 
-        //             for (let i = 0; i < emptySpace.length; i++) {
-        //                 let x = emptySpace[i];
-        //                 seat.splice(x, 0, '')
-        //             }
+                    let classes = [];
+                    seatCode.forEach((x, i) => {
+                        if (x === 'a') {
+                            classes.splice(i, 0, 'available')
+                        }
+                        else if (x === 'r') {
+                            classes.splice(i, 0, 'reserved')
+                        }
+                        else if (x === 'u') {
+                            classes.splice(i, 0, 'unavailable')
+                        }
+                        else if (x === '_') {
+                            classes.splice(i, 0, 'emptySpace')
+                        }
+                    })
 
-        //             let classes = [];
-        //             seatCode.map((x, i) => {
-        //                 if (x === 'a') {
-        //                     classes.splice(i, 0, 'available')
-        //                 }
-        //                 else if (x === 'r') {
-        //                     classes.splice(i, 0, 'reserved')
-        //                 }
-        //                 else if (x === 'u') {
-        //                     classes.splice(i, 0, 'unavailable')
-        //                 }
-        //                 else if (x === '_') {
-        //                     classes.splice(i, 0, 'emptySpace')
-        //                 }
-        //             })
+                    this.setState({
+                        seat: seat,
+                        seatCode: seatCode.join(''),
+                        classes: classes,
+                        active: seatCode,
+                    })
 
-        //             this.setState({
-        //                 seat: seat,
-        //                 seatCode: seatCode.join(''),
-        //                 classes: classes,
-        //                 active: seatCode,
-        //             })
-
-        //         }
-            // }
-        // )
+                }
+            }
+        )
     }
 
     componentDidMount() {
@@ -93,6 +91,10 @@ class Seats extends Component {
         let a = x.join('');
         console.log(a.length)
         console.log(a)
+
+        // this.setState({
+        //     date:null
+        // })
     }
 
     updateHandler = (seatSingle) => {
@@ -112,7 +114,8 @@ class Seats extends Component {
     updateClick = () => {
         let update = this.state.active;
         update = update.join('')
-        firebase.database().ref().child('/Bus/Bus1/Book').update({
+        let date = this.state.date;
+        firebase.database().ref().child('/Bus/Bus1/Book/'+date).update({
             seatCode: update,
         })
     }
@@ -155,10 +158,10 @@ class Seats extends Component {
         //     seatCode: this.state.seatCode,
         //     seats: this.state.seats,
         // })
-        let x = this.state.date;
-        ref.set({
-            [x]:'abc'
-        })
+        // let x = this.state.date;
+        // ref.set({
+        //     [x]:'abc'
+        // })
         // ref.child('Book/').set({ seatCode: this.state.seatCode })
 
     }

@@ -43,15 +43,16 @@ class Form extends Component {
                         let userData = data.val()
                         let dedefaultSeatCode = userData.defaultSeatCode
                         ref.child(date).set({
-                            [date]: dedefaultSeatCode
+                            seatCode: dedefaultSeatCode
                         })
                     })
                 }
-            });
-
-        this.setState({
-            date: date
-        })
+                else {
+                    this.setState({
+                        date: date
+                    })
+                }
+            }.bind(this));
     }
 
     render() {
@@ -67,7 +68,6 @@ class Form extends Component {
                 <br />
                 <br />
                 {this.state.date ? <Seats date={this.state.date} /> : null}
-                {/* <Seats date={this.state.date} /> */}
             </div>
         );
     }
