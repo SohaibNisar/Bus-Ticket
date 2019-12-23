@@ -20,11 +20,14 @@ class Form extends Component {
 
     handleChange = date => {
         this.setState({
-            startDate: date
+            startDate: date,
         });
     };
 
     search = () => {
+        this.setState({
+            date: null,
+        });
         let date = this.state.startDate;
 
         let d = date.getDate();
@@ -32,6 +35,7 @@ class Form extends Component {
         let y = date.getFullYear();
 
         date = 'D_' + d + '_' + m + '_' + y;
+        console.log(date)
 
         var ref = firebase.database().ref("/Bus/Bus1/Book/");
         ref.once("value")
@@ -41,9 +45,13 @@ class Form extends Component {
                 if (!ifChild) {
                     parent.on('value', data => {
                         let userData = data.val()
-                        let dedefaultSeatCode = userData.defaultSeatCode
+                        let defaultSeatCode = userData.defaultSeatCode
                         ref.child(date).set({
-                            seatCode: dedefaultSeatCode
+                            seatCode: defaultSeatCode
+                        }).then(() => {
+                            this.setState({
+                                date: date
+                            })
                         })
                     })
                 }
@@ -68,6 +76,7 @@ class Form extends Component {
                 <br />
                 <br />
                 {this.state.date ? <Seats date={this.state.date} /> : null}
+                {/* {<Seats/>} */}
             </div>
         );
     }

@@ -10,9 +10,9 @@ class Seats extends Component {
             busData: [],
 
             // for push
-            busId: '',
-            seatCode: '',
-            seats: '',
+            // busId: '',
+            // seatCode: '',
+            // seats: '',
 
             // for print
             seat: [],
@@ -96,6 +96,18 @@ class Seats extends Component {
         //     date:null
         // })
     }
+    componentWillUnmount() {
+        console.log('unm')
+        this.setState({
+            busData:[],
+            data:null,
+            seat: [],
+            emptySpace: [],
+            active: [],
+            classes: [],
+        })
+    }
+    
 
     updateHandler = (seatSingle) => {
         let i = parseInt(seatSingle);
@@ -113,6 +125,7 @@ class Seats extends Component {
 
     updateClick = () => {
         let update = this.state.active;
+        console.log(update)
         update = update.join('')
         let date = this.state.date;
         firebase.database().ref().child('/Bus/Bus1/Book/'+date).update({
@@ -124,6 +137,7 @@ class Seats extends Component {
         return (
 
             <div className='container grid'>
+                    <h1>Seat Reservation System</h1>
                 <div className='flex'>
                     {this.state.seat.map((x, i) =>
                         <div className={'card ' + this.state.classes[i]}
@@ -131,14 +145,16 @@ class Seats extends Component {
                     )}
                 </div>
                 <div>
-                    <h1>Seat Reservation System</h1>
-                    <input name='busId' placeholder='Bus Id' onChange={this.inputHandler} />
-                    <input name='seats' placeholder='seats' onChange={this.inputHandler} />
-                    <input name='seatCode' placeholder='Code' value={this.state.seatCode} onChange={this.inputHandler} />
+                    <br/>
+                    <br/>
+                    <br/>
+                    {/* <input name='busId' placeholder='Bus Id' onChange={this.inputHandler} /> */}
+                    {/* <input name='seats' placeholder='seats' onChange={this.inputHandler} /> */}
+                    {/* <input name='seatCode' placeholder='Code' value={this.state.seatCode} onChange={this.inputHandler} /> */}
                     <button onClick={this.submitHandler}>Submit</button>
-                    <button onClick={this.updateClick}>Update</button>
+                    {/* <button onClick={this.updateClick}>Book</button> */}
                 </div>
-                <div>{this.state.active}</div>
+                {/* <div>{this.state.active}</div> */}
             </div>
 
         )
@@ -153,15 +169,12 @@ class Seats extends Component {
     }
 
     submitHandler = () => {
-        let ref = firebase.database().ref().child('/Bus/Bus1/Book/' + this.state.busId)
-        // .set({
-        //     seatCode: this.state.seatCode,
-        //     seats: this.state.seats,
-        // })
-        // let x = this.state.date;
-        // ref.set({
-        //     [x]:'abc'
-        // })
+        let ref = firebase.database().ref().child('/Bus/Bus1/')
+        .set({
+            dedefaultSeatCode: 'aaaaaaaaaaaaaaaaaaaaa____________aaaaaaaaaa',
+            seats:32,
+            Book:{}
+        })
         // ref.child('Book/').set({ seatCode: this.state.seatCode })
 
     }
