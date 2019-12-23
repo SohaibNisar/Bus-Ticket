@@ -6,9 +6,6 @@ import './form.css';
 import "react-datepicker/dist/react-datepicker.css";
 import firebase from 'firebase';
 
-// CSS Modules, react-datepicker-cssmodules.css
-// import 'react-datepicker/dist/react-datepicker-cssmodules.css';
-
 class Form extends Component {
     constructor() {
         super()
@@ -35,18 +32,21 @@ class Form extends Component {
         let y = date.getFullYear();
 
         date = 'D_' + d + '_' + m + '_' + y;
-        console.log(date)
 
         var ref = firebase.database().ref("/Bus/Bus1/Book/");
         ref.once("value")
             .then(function (snapshot) {
                 var ifChild = snapshot.hasChild(date);
                 let parent = ref.parent;
-                if (!ifChild) {
-                    parent.on('value', data => {
+                if (ifChild) {
+                    this.setState({
+                        date: date
+                    })
+                }
+                else {
+                    parent.once('value', data => {
                         let userData = data.val()
                         let defaultSeatCode = userData.defaultSeatCode
-                        alert()
                         ref.child(date).set({
                             seatCode: defaultSeatCode
                         }).then(() => {
@@ -54,11 +54,6 @@ class Form extends Component {
                                 date: date
                             })
                         })
-                    })
-                }
-                else {
-                    this.setState({
-                        date: date
                     })
                 }
             }.bind(this));
