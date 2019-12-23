@@ -32,7 +32,7 @@ class Seats extends Component {
                 let userData = data.val();
                 if (userData) {
                     let seatCode = userData.Book[this.state.date].seatCode;
-                    console.log(seatCode)
+                    // console.log(seatCode)
                     seatCode = seatCode.split('');
 
                     let fliterSeats = (seatStatus) => {
@@ -83,30 +83,30 @@ class Seats extends Component {
     componentDidMount() {
         this.getData();
         let x = [
-            'a', 'r', 'a', 'a', 'a', 'a', 'a', 'r', 'a', 'a', 'a',
-            'a', 'a', 'a', 'a', 'r', 'u', 'a', 'r', 'a', 'r', 'a',
+            'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a',
+            'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a',
             '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_',
-            '_', 'a', 'a', 'a', 'a', 'r', 'a', 'r', 'a', 'u', 'a',
+            '_', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a',
         ];
         let a = x.join('');
-        console.log(a.length)
-        console.log(a)
+        // console.log(a.length)
+        // console.log(a)
 
         // this.setState({
         //     date:null
         // })
     }
-    componentWillUnmount() {
-        console.log('unm')
-        this.setState({
-            busData:[],
-            data:null,
-            seat: [],
-            emptySpace: [],
-            active: [],
-            classes: [],
-        })
-    }
+    // componentWillUnmount() {
+    //     console.log('unm')
+    //     this.setState({
+    //         busData:[],
+    //         data:null,
+    //         seat: [],
+    //         emptySpace: [],
+    //         active: [],
+    //         classes: [],
+    //     })
+    // }
     
 
     updateHandler = (seatSingle) => {
@@ -125,11 +125,13 @@ class Seats extends Component {
 
     updateClick = () => {
         let update = this.state.active;
-        console.log(update)
+        // console.log(update)
         update = update.join('')
+        console.log(update)
         let date = this.state.date;
         firebase.database().ref().child('/Bus/Bus1/Book/'+date).update({
             seatCode: update,
+            a:'a',
         })
     }
 
@@ -151,8 +153,8 @@ class Seats extends Component {
                     {/* <input name='busId' placeholder='Bus Id' onChange={this.inputHandler} /> */}
                     {/* <input name='seats' placeholder='seats' onChange={this.inputHandler} /> */}
                     {/* <input name='seatCode' placeholder='Code' value={this.state.seatCode} onChange={this.inputHandler} /> */}
-                    <button onClick={this.submitHandler}>Submit</button>
-                    {/* <button onClick={this.updateClick}>Book</button> */}
+                    <button onClick={this.submitHandler} disabled>Submit</button>
+                    <button onClick={this.updateClick}>Book</button>
                 </div>
                 {/* <div>{this.state.active}</div> */}
             </div>
@@ -171,7 +173,7 @@ class Seats extends Component {
     submitHandler = () => {
         let ref = firebase.database().ref().child('/Bus/Bus1/')
         .set({
-            dedefaultSeatCode: 'aaaaaaaaaaaaaaaaaaaaa____________aaaaaaaaaa',
+            defaultSeatCode: 'aaaaaaaaaaaaaaaaaaaaaa____________aaaaaaaaaa',
             seats:32,
             Book:{}
         })

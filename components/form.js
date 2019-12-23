@@ -46,6 +46,7 @@ class Form extends Component {
                     parent.on('value', data => {
                         let userData = data.val()
                         let defaultSeatCode = userData.defaultSeatCode
+                        alert()
                         ref.child(date).set({
                             seatCode: defaultSeatCode
                         }).then(() => {
@@ -75,7 +76,7 @@ class Form extends Component {
                 <br />
                 <br />
                 <br />
-                {this.state.date ? <Seats date={this.state.date} /> : null}
+                {this.state.date && <Seats date={this.state.date} />}
                 {/* {<Seats/>} */}
             </div>
         );
