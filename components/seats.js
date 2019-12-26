@@ -99,10 +99,10 @@ class Seats extends Component {
 
     submitHandler = () => {
         let ref = firebase.database().ref().child('/Bus/Bus1/');
-        ref.set({
+        ref.update({
             defaultSeatCode: 'aaaaaaaaaaaaaaaaaaaaaa____________aaaaaaaaaa',
             seats: 32,
-            Book: {}
+            location:'a'
         })
     }
 
@@ -143,7 +143,7 @@ class Seats extends Component {
                     <br />
                     <br />
                     <br />
-                    {/* <button onClick={this.submitHandler}>Submit</button> */}
+                    <button onClick={this.submitHandler}>Submit</button>
                     <button onClick={this.updateClick}>Book</button>
                 </div>
             </div>

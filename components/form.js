@@ -57,9 +57,21 @@ class Form extends Component {
                     })
                 }
             }.bind(this));
+        // var ref = firebase.database().ref("Bus/Bus1/");
+        // ref.orderByChild("seats").equalTo(32).on("value", function(data) {
+        //     console.log("Equal to filter: " + data);
+        //  });
     }
 
     render() {
+        var playersRef = firebase.database().ref("Bus/Bus1/");
+        var q = playersRef.orderByChild('seats').equalTo('32')
+        q.once("value", function (snapshot) {
+            // snapshot.forEach(function (child) {
+            //     console.log(child.key, child.val());
+            // });
+            console.log(snapshot.seats)
+        });
         return (
             <div>
                 <DatePicker
